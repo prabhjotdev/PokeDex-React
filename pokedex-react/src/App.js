@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
+  const [pokeData, setPokeData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Define the API URL
+    const apiUrl = "https://pokeapi.co/api/v2/pokemon";
+
+    // Fetch data from the API using Axios
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log(response.data.results);
+        setPokeData(response.data.results); // Store the fetched data in state
+        setLoading(false); // Set loading to false when data is loaded
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false on error
+      });
+  }, []); // The empty array ensures that this effect runs only once when the component mounts
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>API Data</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {pokeData.map((pokemon) => (
+            <li key={pokemon.name}>{pokemon.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
