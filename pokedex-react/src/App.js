@@ -7,34 +7,48 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Define the API URL
-    const apiUrl = "https://pokeapi.co/api/v2/pokemon";
+    const fetchData = async () => {
+      const cacheBust = Date.now();
+      const result = await axios(
+        `https://pokeapi.co/api/v2/pokemon?limit=1015&_=${cacheBust}`
+      );
 
-    // Fetch data from the API using Axios
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        console.log(response.data.results);
-        setPokeData(response.data.results); // Store the fetched data in state
-        setLoading(false); // Set loading to false when data is loaded
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false); // Set loading to false on error
+      result.data.results.forEach(async (e) => {
+        const pokeURL = e.url;
+        const pokemonData = await pokemon(pokeURL);
+        setPokeData((prevData) => [...prevData, pokemonData]);
       });
-  }, []); // The empty array ensures that this effect runs only once when the component mounts
+
+      setPokeData((prevData) => prevData.sort((a, b) => a.order - b.order));
+      setLoading(false);
+    };
+
+    const pokemon = async (pokeURL) => {
+      const pokemon = await axios(pokeURL);
+      console.log(pokemon.data);
+      return pokemon.data;
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
-      <h2>API Data</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul>
-          {pokeData.map((pokemon) => (
-            <li key={pokemon.name}>{pokemon.name}</li>
-          ))}
-        </ul>
+        <div className="App">
+          <h1>Pokedex</h1>
+          <div className="card-container">
+            {pokeData.map((pokemon) => (
+              <div className="card" key={pokemon.id}>
+                <h2>{pokemon.order}</h2>
+                <img src={pokemon.sprites.front_default} alt="pokemon" />
+                <h2>{pokemon.name}</h2>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
