@@ -1,3 +1,5 @@
+/* The `.card-container` class is defining the styling for a container element that will hold a
+collection of cards. */
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -5,6 +7,7 @@
   padding: 20px;
  }
  
+/* The `.card` class is defining the styling for a card element. */
  .card {
   background-color: #f8f8f8;
   border: 1px solid #ddd;
@@ -14,11 +17,19 @@
   width: 200px;
  }
 
+ /* The `.card img` selector is targeting the `img` element inside the `.card` class. It is setting the
+ width of the image to 100% of its parent container and allowing the height to adjust automatically
+ to maintain the aspect ratio of the image. This ensures that the image will always fill the width
+ of the card while maintaining its original proportions. */
  .card img {
   width: 100%;
   height: auto;
  }
 
+ /* The `.card h2` selector is targeting the `h2` element inside the `.card` class. It is setting the
+ margin and padding of the `h2` element to 0, which means there will be no spacing around the
+ element. It is also setting the font size to 24 pixels and the color to #333, which is a dark gray
+ color. */
  .card h2 {
   margin: 0;
   padding: 0;
@@ -26,6 +37,15 @@
   color: #333;
  }
  
+/* The `.card p` selector is targeting the `p` element inside the `.card` class. It is setting the
+following styles for the `p` element:
+- `margin: 10px 0;`: This sets the top and bottom margins of the `p` element to 10 pixels and the
+left and right margins to 0. This creates spacing above and below the paragraph.
+- `padding: 0;`: This sets the padding of the `p` element to 0, meaning there will be no spacing
+inside the element.
+- `font-size: 16px;`: This sets the font size of the text inside the `p` element to 16 pixels.
+- `color: #666;`: This sets the color of the text inside the `p` element to a dark gray color
+(#666). */
  .card p {
   margin: 10px 0;
   padding: 0;
